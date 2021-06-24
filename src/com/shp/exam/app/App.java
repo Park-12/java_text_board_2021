@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.shp.exam.app.dto.Article;
+import com.shp.exam.util.Util;
 
 public class App {
 
@@ -29,8 +30,8 @@ public class App {
 
 				Article article = new Article();
 				article.id = articesLastId + 1;
-				article.regDate = "2021-06-24 12:12:12";
-				article.updateDate = "2021-06-24 12:12:12";
+				article.regDate = Util.getNowDateStr();
+				article.updateDate = Util.getNowDateStr();
 				article.title = title;
 				article.body = body;
 				articles.add(article);
@@ -41,13 +42,12 @@ public class App {
 
 			} else if (command.equals("/usr/article/list")) {
 				System.out.printf("번호 / 작성날짜 / 제목\n");
-				
-				for (Article article : articles) {
+
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
 					System.out.printf("%d / %s / %s\n", article.id, article.regDate, article.title);
 				}
-			}
-
-			if (command.equals("/usr/system/exit")) {
+			} else if (command.equals("/usr/system/exit")) {
 				System.out.println("프로그램을 종료합니다.");
 				break;
 			}
