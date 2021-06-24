@@ -10,42 +10,49 @@ public class App {
 
 	public static void run() {
 		System.out.println("== 코틀린 텍스트 게시판 시작 ==");
-		
+
 		Scanner sc = new Scanner(System.in);
-		
+
 		List<Article> articles = new ArrayList<>();
-		int articlesLastId = 0;
-		
+
+		int articesLastId = 0;
+
 		while (true) {
 			System.out.print("명령어) ");
 			String command = sc.nextLine().trim();
-			
+
 			if (command.equals("/usr/article/write")) {
 				System.out.printf("제목 : ");
 				String title = sc.nextLine().trim();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine().trim();
-				
+
 				Article article = new Article();
-				article.id = articlesLastId + 1;
+				article.id = articesLastId + 1;
 				article.regDate = "2021-06-24 12:12:12";
 				article.updateDate = "2021-06-24 12:12:12";
 				article.title = title;
 				article.body = body;
-				
 				articles.add(article);
+
+				articesLastId++;
+
+				System.out.printf("%d번 게시물이 생성되었습니다.\n", article.id);
+
+			} else if (command.equals("/usr/article/list")) {
+				System.out.printf("번호 / 작성날짜 / 제목\n");
 				
-				articlesLastId++;
-				
-				System.out.printf("%d번 게시물이 생성되었습니다.\n", article.id);				
+				for (Article article : articles) {
+					System.out.printf("%d / %s / %s\n", article.id, article.regDate, article.title);
+				}
 			}
-			
+
 			if (command.equals("/usr/system/exit")) {
 				System.out.println("프로그램을 종료합니다.");
 				break;
 			}
 		}
-		
+
 		System.out.println("== 코틀린 텍스트 게시판 끝 ==");
 	}
 
