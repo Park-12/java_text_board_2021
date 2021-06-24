@@ -16,7 +16,18 @@ public class App {
 
 		List<Article> articles = new ArrayList<>();
 
-		int articesLastId = 0;
+		int articlesLastId = 0;
+		
+		for (int i = 0; i < 10; i++) {
+			Article article = new Article();
+			article.id = articlesLastId + 1;
+			article.regDate = Util.getNowDateStr();
+			article.updateDate = Util.getNowDateStr();
+			article.title = "제목 " + article.id;
+			article.body = "내용 " + article.id;
+			articles.add(article);
+			articlesLastId++;
+		}
 
 		while (true) {
 			System.out.print("명령어) ");
@@ -29,14 +40,14 @@ public class App {
 				String body = sc.nextLine().trim();
 
 				Article article = new Article();
-				article.id = articesLastId + 1;
+				article.id = articlesLastId + 1;
 				article.regDate = Util.getNowDateStr();
 				article.updateDate = Util.getNowDateStr();
 				article.title = title;
 				article.body = body;
 				articles.add(article);
 
-				articesLastId++;
+				articlesLastId++;
 
 				System.out.printf("%d번 게시물이 생성되었습니다.\n", article.id);
 
