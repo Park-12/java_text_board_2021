@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.shp.exam.app.Session;
 import com.shp.exam.app.container.Container;
+import com.shp.exam.app.dto.Member;
 
 import lombok.Getter;
 
@@ -20,7 +21,10 @@ public class Rq {
 	@Getter
 	private boolean isValid = true;
 
-	public Rq(String command) {
+	public Rq() {
+	}
+
+	public void setCommand(String command) {
 		this.command = command;
 
 		params = new HashMap<>();
@@ -69,16 +73,43 @@ public class Rq {
 		}
 	}
 
-	public void setSessionAttr(String key, Object value) {
+	private void setSessionAttr(String key, Object value) {
 		Session session = Container.getSession();
 
 		session.setAttribute(key, value);
 	}
 
-	public void removeSessionAttr(String key) {
+	private Object getSessionAttr(String key) {
+		Session session = Container.getSession();
+
+		return session.getAttribute(key);
+	}
+
+	private void removeSessionAttr(String key) {
 		Session session = Container.getSession();
 
 		session.removeAttribute(key);
 	}
 
+	private boolean hasSessionAttr(String key) {
+		Session session = Container.getSession();
+
+		return session.hasAttribute(key);
+	}
+
+	public Member getLoginedMember() {
+		return (Member) getSessionAttr("loginedMember");
+	}
+
+	public boolean isLogined() {
+		return hasSessionAttr("loginedMember");
+	}
+
+	public void logout() {
+		removeSessionAttr("loginedMember");
+	}
+
+	public void login(Member member) {
+		setSessionAttr("loginedMember", member);
+	}
 }

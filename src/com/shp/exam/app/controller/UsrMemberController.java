@@ -33,7 +33,7 @@ public class UsrMemberController extends Controller {
 			member.setLoginPw(member.getLoginId());
 			member.setName("홍길동" + member.getId());
 			member.setNickname("강바람" + member.getId());
-		
+
 			members.add(member);
 			membersLastId++;
 		}
@@ -58,41 +58,41 @@ public class UsrMemberController extends Controller {
 	}
 
 	private void actionLogout(Rq rq) {
-		rq.removeSessionAttr("loginedMember");
-		
+		rq.logout();
+
 	}
 
 	private void actionLogin(Rq rq) {
 		System.out.printf("로그인아이디 : ");
 		String loginId = sc.nextLine().trim();
-		
+
 		if (loginId.length() == 0) {
 			System.out.println("로그인아이디를 입력해주세요.");
 			return;
 		}
-		
+
 		Member member = getMemberByLoginId(loginId);
-		
+
 		if (member == null) {
 			System.out.println("해당 회원은 존재하지 않습니다.");
 			return;
 		}
-		
+
 		System.out.printf("로그인비밀번호 : ");
 		String loginPw = sc.nextLine().trim();
-		
+
 		if (loginPw.length() == 0) {
 			System.out.println("로그인비밀번호를 입력해주세요.");
 			return;
 		}
-		
+
 		if (member.getLoginPw().equals(loginPw) == false) {
 			System.out.println("비밀번호가 일치하지 않습니다.");
 			return;
 		}
-		
-		rq.setSessionAttr("loginedMember", member);
-		
+
+		rq.login(member);
+
 		System.out.printf("%s님 환영합니다.\n", member.getNickname());
 	}
 }
