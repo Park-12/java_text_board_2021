@@ -1,13 +1,14 @@
 package com.shp.exam.app.dto;
 
-public class Member {
+import lombok.Data;
 
-	public int id;
-	public String regDate;
-	public String updateDate;
-	public String loginId;
-	public String loginPw;
-	public String name;
-	public String nickname;
-	
+@Data
+public class Member {
+	private int id;
+	private String regDate;
+	private String updateDate;
+	private String loginId;
+	private String loginPw;
+	private String name;
+	private String nickname;	
 }
