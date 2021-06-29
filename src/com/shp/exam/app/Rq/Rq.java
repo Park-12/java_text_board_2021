@@ -18,7 +18,7 @@ public class Rq {
 
 	public Rq(String command) {
 		this.command = command;
-		
+
 		params = new HashMap<>();
 
 		String[] commandBits = command.split("\\?", 2);
@@ -32,7 +32,7 @@ public class Rq {
 				String[] queryStringBitBits = queryStringBit.split("=", 2);
 				String paramName = queryStringBitBits[0];
 				String paramValue = queryStringBitBits[1];
-				
+
 				params.put(paramName, paramValue);
 			}
 		}
@@ -54,14 +54,13 @@ public class Rq {
 	}
 
 	public int getIntParam(String paramName, int defaultValue) {
-		if(params.containsKey(paramName) == false) {
+		if (params.containsKey(paramName) == false) {
 			return defaultValue;
 		}
-		
-		try  {
-			return Integer.parseInt(params.get(paramName));			
-		}
-		catch ( NumberFormatException e ) {
+
+		try {
+			return Integer.parseInt(params.get(paramName));
+		} catch (NumberFormatException e) {
 			return defaultValue;
 		}
 	}
@@ -72,12 +71,18 @@ public class Rq {
 
 	public void setSessionAttr(String key, Object value) {
 		Session session = Container.getSession();
-		
+
 		session.setAttribute(key, value);
 	}
 
 	public Object getControllerName() {
 		return controllerName;
+	}
+
+	public void removeSessionAttr(String key) {
+		Session session = Container.getSession();
+
+		session.removeAttribute(key);
 	}
 
 }
