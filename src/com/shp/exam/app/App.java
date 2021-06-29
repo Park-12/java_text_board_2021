@@ -1,14 +1,14 @@
 package com.shp.exam.app;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.shp.exam.app.Rq.Rq;
 import com.shp.exam.app.container.Container;
 import com.shp.exam.app.controller.Controller;
-import com.shp.exam.app.controller.UsrArticleController;
-import com.shp.exam.app.controller.UsrMemberController;
-import com.shp.exam.app.controller.UsrSystemController;
 import com.shp.exam.app.dto.Member;
+import com.shp.exam.app.interceptor.Interceptor;
 
 public class App {
 	Scanner sc;
@@ -41,6 +41,10 @@ public class App {
 				continue;
 			}
 
+			if ( runInterceptor(rq) == false ) {
+				continue;
+			}
+
 			Controller controller = getControllerByRequestUri(rq);
 
 			controller.performAction(rq);
@@ -51,6 +55,20 @@ public class App {
 		}
 
 		System.out.println("== 텍스트 게시판 끝 ==");
+	}
+
+	private boolean runInterceptor(Rq rq) {
+		List<Interceptor> interceptors = new ArrayList<>();
+
+		interceptors.add(Container.getNeedLoginInterceptor());
+		interceptors.add(Container.getNeedLogoutInterceptor());
+
+		for (Interceptor interceptor : interceptors) {
+			if (interceptor.run(rq) == false) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private Controller getControllerByRequestUri(Rq rq) {
