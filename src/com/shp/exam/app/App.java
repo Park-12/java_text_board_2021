@@ -16,9 +16,16 @@ public class App {
 	App() {
 		sc = Container.getSc();
 	}
+	
+	private void forTestLoginByMemberId(int id) {
+		Member member = Container.getMemberService().getMemberById(id);
+		new Rq().login(member);
+	}
 
 	public void run() {
 		System.out.println("== 텍스트 게시판 시작 ==");
+		
+		forTestLoginByMemberId(1);
 
 		while (true) {
 			String promprName = "명령어";

@@ -38,4 +38,13 @@ public class MemberRepository {
 		return null;
 	}
 
+	public Member getMemberById(int id) {
+		for (Member member : members) {
+			if (member.getId() == id) {
+				return member;
+			}
+		}
+		return null;
+	}
+
 }
