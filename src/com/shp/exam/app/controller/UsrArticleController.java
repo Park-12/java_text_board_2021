@@ -115,11 +115,11 @@ public class UsrArticleController extends Controller {
 	private void actionList(Rq rq) {
 		List<Article> articles = articleService.getArticles();
 
-		System.out.printf("번호 / 작성날자 / 제목\n");
+		System.out.printf("번호 / 게시판 / 작성자 / 작성날자 / 제목\n");
 
 		for (int i = articles.size() - 1; i >= 0; i--) {
 			Article article = articles.get(i);
-			System.out.printf("%d / %s / %s\n", article.getId(), article.getRegDate(), article.getTitle());
+			System.out.printf("%d / %d / %d / %s / %s\n", article.getId(), article.getBoardId(), article.getMemberId(), article.getRegDate(), article.getTitle());
 		}
 	}
 
