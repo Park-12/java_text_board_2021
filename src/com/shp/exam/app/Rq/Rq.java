@@ -3,6 +3,10 @@ package com.shp.exam.app.Rq;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.shp.exam.app.Session;
+import com.shp.exam.app.container.Container;
+import com.shp.exam.app.dto.Member;
+
 public class Rq {
 	private Map<String, String> params;
 	private String command;
@@ -64,6 +68,16 @@ public class Rq {
 
 	public String getControllerTypeCode() {
 		return controllerTypeName;
+	}
+
+	public void setSessionAttr(String key, Object value) {
+		Session session = Container.getSession();
+		
+		session.setAttribute(key, value);
+	}
+
+	public Object getControllerName() {
+		return controllerName;
 	}
 
 }
