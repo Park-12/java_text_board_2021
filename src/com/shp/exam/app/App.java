@@ -4,8 +4,10 @@ import java.util.Scanner;
 
 import com.shp.exam.app.Rq.Rq;
 import com.shp.exam.app.container.Container;
+import com.shp.exam.app.controller.Controller;
 import com.shp.exam.app.controller.UsrArticleController;
 import com.shp.exam.app.controller.UsrMemberController;
+import com.shp.exam.app.controller.UsrSystemController;
 import com.shp.exam.app.dto.Member;
 
 public class App {
@@ -18,21 +20,19 @@ public class App {
 	public void run() {
 		System.out.println("== 텍스트 게시판 시작 ==");
 
-		UsrArticleController usrArticleController = new UsrArticleController();
-		UsrMemberController usrMemberController = new UsrMemberController();
 		Session session = Container.getSession();
-		
+
 		while (true) {
-			Member loginedMember = (Member)session.getAttribute("loginedMember");
-			
+			Member loginedMember = (Member) session.getAttribute("loginedMember");
+
 			String promprName = "명령어";
-			
+
 			if (loginedMember != null) {
 				promprName = loginedMember.getNickname();
 			}
-			
+
 			System.out.printf("%s) ", promprName);
-			
+
 			String command = sc.nextLine().trim();
 
 			Rq rq = new Rq(command);
@@ -42,22 +42,32 @@ public class App {
 				continue;
 			}
 
-			if (rq.getControllerTypeCode().equals("usr")) {
-				if (rq.getControllerName().equals("article")) {
-					usrArticleController.performAction(rq);
+			Controller controller = getControllerByRequestUri(rq);
 
-				} else if (rq.getControllerName().equals("member")) {
-					usrMemberController.performAction(rq);
+			controller.performAction(rq);
 
-				} else if (rq.getControllerName().equals("system")) {
-					if (rq.getActionPath().equals("/usr/system/exit")) {
-						System.out.println("프로그램을 종료 합니다.");
-						break;
-					}
-				}
+			if (rq.getActionPath().equals("/usr/system/exit")) {
+				break;
 			}
+
 		}
 
 		System.out.println("== 텍스트 게시판 끝 ==");
+	}
+
+	private Controller getControllerByRequestUri(Rq rq) {
+		switch (rq.getControllerTypeCode()) {
+		case "usr":
+			switch (rq.getControllerName()) {
+			case "article":
+				return Container.getUsrArticleController();
+			case "member":
+				return Container.getUsrMemberController();
+			case "system":
+				return Container.getUsrSystemController();
+			}
+			break;
+		}
+		return null;
 	}
 }

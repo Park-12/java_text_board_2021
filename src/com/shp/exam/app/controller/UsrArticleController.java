@@ -9,7 +9,7 @@ import com.shp.exam.app.container.Container;
 import com.shp.exam.app.dto.Article;
 import com.shp.exam.util.Util;
 
-public class UsrArticleController {
+public class UsrArticleController extends Controller {
 	private List<Article> articles;
 	private int articlesLastId;
 	private Scanner sc;
@@ -45,6 +45,7 @@ public class UsrArticleController {
 		return null;
 	}
 
+	@Override
 	public void performAction(Rq rq) {
 		if (rq.getActionPath().equals("/usr/article/write")) {
 			actionWrite(rq);

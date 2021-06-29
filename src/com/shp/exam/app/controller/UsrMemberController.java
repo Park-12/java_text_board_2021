@@ -9,7 +9,7 @@ import com.shp.exam.app.container.Container;
 import com.shp.exam.app.dto.Member;
 import com.shp.exam.util.Util;
 
-public class UsrMemberController {
+public class UsrMemberController extends Controller {
 	private List<Member> members;
 	private int membersLastId;
 	private Scanner sc;
@@ -48,6 +48,7 @@ public class UsrMemberController {
 		return null;
 	}
 
+	@Override
 	public void performAction(Rq rq) {
 		if (rq.getActionPath().equals("/usr/member/login")) {
 			actionLogin(rq);
